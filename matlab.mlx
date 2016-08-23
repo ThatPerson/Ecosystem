@@ -1,0 +1,71 @@
+trophic_level = [10000, 100, 10]
+repeats = 1000
+figure (1)
+x = 0:repeats;
+A = trophic_level
+q_score = 0
+hold on;
+D = []
+for lk = 1:size(trophic_level)
+  D = [D plot(x(1), rot90(A(:,lk))(1))]
+endfor
+
+as = plot(x(1), rot90(A(:,1))(1))
+bs = plot(x(1), rot90(A(:,2))(1))
+cs = plot(x(1), rot90(A(:,3))(1))
+
+axis([0 repeats 0 20000]);
+#vh = get(gca,'children');
+
+for i=1:length(x)
+  #b = [b, {2; 3; 4; 5; 6}];
+
+  set(as, 'xdata',x(1:i), 'ydata', rot90(A(:,1))(1:i));
+  set(bs, 'xdata',x(1:i), 'ydata', rot90(A(:,2))(1:i));
+  set(cs, 'xdata',x(1:i), 'ydata', rot90(A(:,3))(1:i));
+  new_tl = zeros(size(trophic_level));
+  #new_tl(1) = 10000;
+  new_tl(1) = trophic_level(1) + (150 * (1 + sin(i * pi/40)));
+
+  pause(0.1);
+
+  for p = 2:size(trophic_level)(2)-1
+    for n = 0:trophic_level(p)
+      if trophic_level(p) == 0
+        q_score = 0.001;
+      else
+        q_score = new_tl(p-1) / trophic_level(p);
+      end
+      rand_score = unidrnd(10);
+      if q_score > 10
+        if rand_score < 3
+          new_tl(p) = new_tl(p) + 1;
+          new_tl(p-1) = new_tl(p-1) - 1;
+        else
+          new_tl(p) = new_tl(p) + 2;
+          new_tl(p-1) = new_tl(p-1) - 2;
+        end
+      elseif q_score <= 10 && q_score > 1
+        if rand_score < 3
+          new_tl(1) = new_tl(1) + (1 - p/size(trophic_level)(2));
+        elseif rand_score > 7
+          new_tl(p) = new_tl(p) + 2;
+          new_tl(p-1) = new_tl(p-1) - 2;
+        else
+          new_tl(p) = new_tl(p) + 1;
+          new_tl(p-1) = new_tl(p-1) - 1;
+        end
+      else
+        if rand_score < 2
+          new_tl(p) = new_tl(p) + 1;
+          new_tl(p-1) = new_tl(p-1) - 1;
+        else
+          new_tl(1) = new_tl(1) + (1 - p/size(trophic_level)(2));
+        end
+      end
+    endfor
+  endfor
+
+  trophic_level = new_tl
+  A = [A; trophic_level];
+endfor
