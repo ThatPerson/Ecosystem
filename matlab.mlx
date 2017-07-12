@@ -1,5 +1,5 @@
 trophic_level = [100000, 100, 10]
-repeats = 1000
+repeats = 100
 figure (1)
 x = 0:repeats;
 A = trophic_level

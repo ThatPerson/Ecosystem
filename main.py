@@ -5,7 +5,7 @@ random.seed(2)
 
 trophic_level = [200000, 1000, 100, 10]
 
-repeats = 1000
+repeats = 100
 
 for i in range(0, repeats):
 	print_str = ""
@@ -37,7 +37,7 @@ for i in range(0, repeats):
 				if (rand_score < 3):
 					# Dies, does not pass on.
 					new_tl[0]= new_tl[0] + 0.5
-					
+
 				elif (rand_score > 7):
 					# Reproduces
 					new_tl[p] = new_tl[p] + 2
@@ -53,6 +53,5 @@ for i in range(0, repeats):
 				else:
 					# Dies
 					new_tl[0] = new_tl[0] + 0.5
-					
-	trophic_level = new_tl
 
+	trophic_level = new_tl
